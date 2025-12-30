@@ -8,7 +8,7 @@ Foundation utilities for HelloDev packages. This is the base package that other 
 - **UnityEvent Extensions** - Safe event handling (`SafeInvoke`, `SafeSubscribe`, `SafeUnsubscribe`) with support for 0-4 parameters
 - **Transform Extensions** - Transform and GameObject utilities (`DestroyAllChildren` with optional condition filter)
 - **Bootstrap Support** - `IBootstrapInitializable` interface for controlled system initialization
-- **Service Pattern** - `ServiceBase_SO` base class for service ScriptableObjects
+- **Locator Pattern** - `LocatorBase_SO` base class for locator ScriptableObjects
 - **Tweening Abstractions** - `ITweenProvider`, `ITweenHandle`, `EaseType` for animation abstraction
 
 ## Getting Started
@@ -207,20 +207,20 @@ public class MyManager : MonoBehaviour, IBootstrapInitializable
 | 250-299 | Data Loading | Load saves, restore state |
 | 300+ | Gameplay | UI, Audio |
 
-### Service Base
+### Locator Base
 
-Base class for service ScriptableObjects that provide decoupled access to managers:
+Base class for locator ScriptableObjects that provide decoupled access to managers:
 
 ```csharp
 using HelloDev.Utils;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Services/My Service")]
-public class MyService_SO : ServiceBase_SO
+[CreateAssetMenu(menuName = "HelloDev/Locators/My Locator")]
+public class MyLocator_SO : LocatorBase_SO
 {
     private MyManager _manager;
 
-    public override string ServiceId => "HelloDev.MySystem";
+    public override string LocatorId => "HelloDev.MySystem";
     public override bool IsAvailable => _manager != null;
 
     public void Register(MyManager manager) => _manager = manager;
@@ -229,7 +229,7 @@ public class MyService_SO : ServiceBase_SO
         if (_manager == manager) _manager = null;
     }
 
-    // Service methods
+    // Locator methods
     public void DoSomething()
     {
         if (!IsAvailable) return;
@@ -271,11 +271,11 @@ None - this is the foundation package.
 | `InitializeAsync()` | Async initialization method |
 | `Shutdown()` | Cleanup method |
 
-### ServiceBase_SO
+### LocatorBase_SO
 | Member | Description |
 |--------|-------------|
-| `ServiceId` | Unique identifier (e.g., "HelloDev.MySystem") |
-| `IsAvailable` | Whether the service is ready to use |
+| `LocatorId` | Unique identifier (e.g., "HelloDev.MySystem") |
+| `IsAvailable` | Whether the locator is ready to use |
 | `PrepareForBootstrap()` | Called before bootstrap begins |
 | `OnBootstrapComplete()` | Called after all systems initialize |
 | `OnBootstrapShutdown()` | Called during shutdown |

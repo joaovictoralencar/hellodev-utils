@@ -3,21 +3,21 @@ using UnityEngine;
 namespace HelloDev.Utils
 {
     /// <summary>
-    /// Base class for all HelloDev service ScriptableObjects.
-    /// Provides a common interface for service discovery and bootstrap integration.
+    /// Base class for all HelloDev locator ScriptableObjects.
+    /// Provides a common interface for locating managers and bootstrap integration.
     /// </summary>
     /// <remarks>
     /// <para>
-    /// Services act as decoupled access points to manager instances.
+    /// Locators act as decoupled access points to manager instances.
     /// They enable systems to communicate without direct references.
     /// </para>
     /// <para>
-    /// Inherit from this class when creating a new service:
+    /// Inherit from this class when creating a new locator:
     /// </para>
     /// <code>
-    /// public class MyService_SO : ServiceBase_SO
+    /// public class MyLocator_SO : LocatorBase_SO
     /// {
-    ///     public override string ServiceId => "HelloDev.MySystem";
+    ///     public override string LocatorId => "HelloDev.MySystem";
     ///     public override bool IsAvailable => _manager != null;
     ///
     ///     private MyManager _manager;
@@ -27,33 +27,33 @@ namespace HelloDev.Utils
     /// }
     /// </code>
     /// </remarks>
-    public abstract class ServiceBase_SO : ScriptableObject
+    public abstract class LocatorBase_SO : ScriptableObject
     {
         /// <summary>
-        /// Unique identifier for this service type.
-        /// Convention: "HelloDev.{Package}.{ServiceName}"
+        /// Unique identifier for this locator type.
+        /// Convention: "HelloDev.{Package}.{LocatorName}"
         /// </summary>
         /// <example>
         /// "HelloDev.Conditions.WorldFlags"
         /// "HelloDev.QuestSystem.Save"
         /// </example>
-        public abstract string ServiceId { get; }
+        public abstract string LocatorId { get; }
 
         /// <summary>
-        /// Whether the manager for this service is registered and ready.
+        /// Whether the manager for this locator is registered and ready.
         /// </summary>
         /// <remarks>
-        /// Check this before calling service methods to avoid null reference exceptions.
+        /// Check this before calling locator methods to avoid null reference exceptions.
         /// In bootstrap mode, this becomes true after the manager's InitializeAsync completes.
         /// </remarks>
         public abstract bool IsAvailable { get; }
 
         /// <summary>
-        /// Called when a bootstrap system is about to initialize all services.
+        /// Called when a bootstrap system is about to initialize all systems.
         /// Override to prepare for controlled initialization.
         /// </summary>
         /// <remarks>
-        /// Default implementation does nothing. Override if your service needs
+        /// Default implementation does nothing. Override if your locator needs
         /// to clear state or prepare for a fresh initialization cycle.
         /// </remarks>
         public virtual void PrepareForBootstrap()
@@ -66,8 +66,8 @@ namespace HelloDev.Utils
         /// Override to perform post-initialization setup.
         /// </summary>
         /// <remarks>
-        /// At this point, all services should be available and ready.
-        /// Safe to make cross-service calls here.
+        /// At this point, all locators should be available and ready.
+        /// Safe to make cross-locator calls here.
         /// </remarks>
         public virtual void OnBootstrapComplete()
         {
