@@ -284,6 +284,12 @@ None - this is the foundation package.
 
 ## Changelog
 
+### v1.2.0 (2025-12-31)
+**Bootstrap Support:**
+- Added `SelfInitialize` property to `IBootstrapInitializable` interface
+- When true (default), systems self-initialize in Unity lifecycle
+- When false, systems wait for `GameBootstrap` to call `InitializeAsync`
+
 ### v1.1.0 (2025-12-21)
 **Performance:**
 - `DestroyAllChildren` now uses zero-allocation reverse iteration instead of creating a temporary List
