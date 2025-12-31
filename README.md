@@ -172,12 +172,13 @@ public class MyManager : MonoBehaviour, IBootstrapInitializable
     private bool _isInitialized;
 
     // IBootstrapInitializable implementation
+    public bool SelfInitialize => selfInitialize;
     public int InitializationPriority => 150; // Game systems layer
     public bool IsInitialized => _isInitialized;
 
     void OnEnable()
     {
-        if (selfInitialize)
+        if (selfInitialize && !_isInitialized)
             _ = InitializeAsync();
     }
 
@@ -266,6 +267,7 @@ None - this is the foundation package.
 ### IBootstrapInitializable
 | Member | Description |
 |--------|-------------|
+| `SelfInitialize` | True = self-init in Unity lifecycle, False = wait for bootstrap |
 | `InitializationPriority` | Sort order for initialization (lower = earlier) |
 | `IsInitialized` | Whether initialization is complete |
 | `InitializeAsync()` | Async initialization method |

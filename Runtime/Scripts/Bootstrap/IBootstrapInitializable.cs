@@ -38,22 +38,23 @@ namespace HelloDev.Utils
     /// {
     ///     [SerializeField] private bool selfInitialize = true;
     ///
+    ///     public bool SelfInitialize => selfInitialize;
     ///     public int InitializationPriority => 150;
     ///     public bool IsInitialized => _isInitialized;
     ///     private bool _isInitialized;
     ///
     ///     private void OnEnable()
     ///     {
-    ///         if (selfInitialize)
+    ///         if (selfInitialize && !_isInitialized)
     ///             _ = InitializeAsync();
     ///     }
     ///
-    ///     public async Task InitializeAsync()
+    ///     public Task InitializeAsync()
     ///     {
-    ///         if (_isInitialized) return;
+    ///         if (_isInitialized) return Task.CompletedTask;
     ///         // ... initialization logic ...
     ///         _isInitialized = true;
-    ///         await Task.CompletedTask;
+    ///         return Task.CompletedTask;
     ///     }
     ///
     ///     public void Shutdown()
@@ -65,6 +66,15 @@ namespace HelloDev.Utils
     /// </example>
     public interface IBootstrapInitializable
     {
+        /// <summary>
+        /// Whether this system should self-initialize in Unity lifecycle (OnEnable/Start).
+        /// Set to false when using GameBootstrap for coordinated initialization.
+        /// </summary>
+        /// <remarks>
+        /// When true (default), the system initializes itself during Unity's lifecycle.
+        /// When false, the system waits for GameBootstrap to call <see cref="InitializeAsync"/>.
+        /// </remarks>
+        bool SelfInitialize { get; }
         /// <summary>
         /// Initialization priority. Lower numbers initialize first.
         /// </summary>
