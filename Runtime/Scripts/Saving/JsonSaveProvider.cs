@@ -2,7 +2,9 @@ using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using HelloDev.Logging;
 using UnityEngine;
+using Logger = HelloDev.Logging.Logger;
 
 namespace HelloDev.Saving
 {
@@ -63,12 +65,12 @@ namespace HelloDev.Saving
 
                 File.WriteAllText(filePath, json);
 
-                Debug.Log($"[SaveService] Saved: {key}");
+                Logger.LogVerbose(LogSystems.Save, $"Saved: {key}");
                 return Task.FromResult(true);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[SaveService] Save failed for '{key}': {ex.Message}");
+                Logger.LogError(LogSystems.Save, $"Save failed for '{key}': {ex.Message}");
                 return Task.FromResult(false);
             }
         }
@@ -82,19 +84,19 @@ namespace HelloDev.Saving
 
                 if (!File.Exists(filePath))
                 {
-                    Debug.LogWarning($"[SaveService] File not found: {key}");
+                    Logger.LogWarning(LogSystems.Save, $"File not found: {key}");
                     return Task.FromResult(default(T));
                 }
 
                 string json = File.ReadAllText(filePath);
                 T data = JsonUtility.FromJson<T>(json);
 
-                Debug.Log($"[SaveService] Loaded: {key}");
+                Logger.LogVerbose(LogSystems.Save, $"Loaded: {key}");
                 return Task.FromResult(data);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[SaveService] Load failed for '{key}': {ex.Message}");
+                Logger.LogError(LogSystems.Save, $"Load failed for '{key}': {ex.Message}");
                 return Task.FromResult(default(T));
             }
         }
@@ -116,14 +118,14 @@ namespace HelloDev.Saving
                 if (File.Exists(filePath))
                 {
                     File.Delete(filePath);
-                    Debug.Log($"[SaveService] Deleted: {key}");
+                    Logger.LogVerbose(LogSystems.Save, $"Deleted: {key}");
                 }
 
                 return Task.FromResult(true);
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[SaveService] Delete failed for '{key}': {ex.Message}");
+                Logger.LogError(LogSystems.Save, $"Delete failed for '{key}': {ex.Message}");
                 return Task.FromResult(false);
             }
         }
@@ -148,7 +150,7 @@ namespace HelloDev.Saving
             }
             catch (Exception ex)
             {
-                Debug.LogError($"[SaveService] GetKeys failed: {ex.Message}");
+                Logger.LogError(LogSystems.Save, $"GetKeys failed: {ex.Message}");
                 return Task.FromResult(Array.Empty<string>());
             }
         }

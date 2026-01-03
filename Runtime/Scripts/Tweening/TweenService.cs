@@ -1,5 +1,7 @@
+using HelloDev.Logging;
 using UnityEngine;
 using UnityEngine.UI;
+using Logger = HelloDev.Logging.Logger;
 
 namespace HelloDev.Tweening
 {
@@ -29,7 +31,7 @@ namespace HelloDev.Tweening
         public static void SetProvider(ITweenProvider provider)
         {
             _provider = provider;
-            Debug.Log($"[TweenService] Provider set: {provider?.GetType().Name ?? "null"}");
+            Logger.LogVerbose(LogSystems.Tween, $"Provider set: {provider?.GetType().Name ?? "null"}");
         }
 
         /// <summary>

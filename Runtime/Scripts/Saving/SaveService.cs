@@ -1,6 +1,8 @@
 using System;
 using System.Threading.Tasks;
+using HelloDev.Logging;
 using UnityEngine;
+using Logger = HelloDev.Logging.Logger;
 
 namespace HelloDev.Saving
 {
@@ -41,7 +43,6 @@ namespace HelloDev.Saving
         public static void SetProvider(ISaveProvider provider)
         {
             _provider = provider;
-            Debug.Log($"[SaveService] Provider set: {provider?.GetType().Name ?? "null"}");
         }
 
         /// <summary>
@@ -65,13 +66,13 @@ namespace HelloDev.Saving
 
         public Task<bool> SaveAsync<T>(string key, T data)
         {
-            Debug.LogWarning("[SaveService] No provider configured. Save operation ignored.");
+            Logger.LogWarning(LogSystems.Save, "No provider configured. Save operation ignored.");
             return Task.FromResult(false);
         }
 
         public Task<T> LoadAsync<T>(string key)
         {
-            Debug.LogWarning("[SaveService] No provider configured. Load operation returned default.");
+            Logger.LogWarning(LogSystems.Save, "No provider configured. Load operation returned default.");
             return Task.FromResult(default(T));
         }
 

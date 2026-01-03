@@ -284,6 +284,12 @@ None - this is the foundation package.
 
 ## Changelog
 
+### v1.2.1 (2026-01-03)
+**Logging:**
+- Added HelloDev.Logging module for consistent logging across HelloDev packages
+- SaveService now uses Logger for warnings instead of Debug.LogWarning
+- Removed redundant log message from SetProvider
+
 ### v1.2.0 (2025-12-31)
 **Bootstrap Support:**
 - Added `SelfInitialize` property to `IBootstrapInitializable` interface
