@@ -35,20 +35,8 @@ namespace HelloDev.Logging
         private static readonly Dictionary<string, LogSystemConfig> _systems = new();
         private static readonly HashSet<string> _disabledSystems = new();
 
-        /// <summary>
-        /// Static constructor - registers core HelloDev systems with their colors.
-        /// </summary>
-        static Logger()
-        {
-            // Register core HelloDev systems with visible colors
-            RegisterSystem(LogSystems.Bootstrap, "#FF6B6B", "Bootstrap");   // Coral red
-            RegisterSystem(LogSystems.Save, "#A8D8EA", "Save");             // Light blue
-            RegisterSystem(LogSystems.SaveSetup, "#B8E0F0", "SaveSetup");   // Lighter blue
-            RegisterSystem(LogSystems.Tween, "#98D8C8", "Tween");           // Mint green
-            RegisterSystem(LogSystems.UI, "#87CEEB", "UI");                 // Sky blue
-            RegisterSystem(LogSystems.WorldFlags, "#DDA0DD", "WorldFlags"); // Plum
-            RegisterSystem(LogSystems.Conditions, "#F7DC6F", "Conditions"); // Yellow
-        }
+        // Note: Systems are now configured via LoggerSettings_SO and registered by LoggerInitializer.
+        // The static constructor is removed to allow external configuration.
 
         #endregion
 
@@ -170,6 +158,16 @@ namespace HelloDev.Logging
             return _systems.Keys;
         }
 
+        /// <summary>
+        /// Clears all registered systems and disabled states.
+        /// Called by LoggerSettings_SO.ApplyToLogger() before registering systems.
+        /// </summary>
+        public static void ClearAllSystems()
+        {
+            _systems.Clear();
+            _disabledSystems.Clear();
+        }
+
         #endregion
 
         #region Standard Logging
@@ -221,6 +219,7 @@ namespace HelloDev.Logging
 
         /// <summary>
         /// Logs a verbose message (only when IsVerboseEnabled is true).
+        /// Uses the configured system color but with a dimmed message.
         /// </summary>
         /// <param name="systemId">The system ID.</param>
         /// <param name="message">The message to log.</param>
@@ -230,7 +229,7 @@ namespace HelloDev.Logging
             if (!IsSystemEnabled(systemId)) return;
 
             var config = GetOrCreateConfig(systemId);
-            Debug.Log($"<color=#888888>[{config.TagName}]</color> <color=#AAAAAA>{message}</color>");
+            Debug.Log($"<color={config.HexColor}>[{config.TagName}]</color> {message}");
         }
 
         #endregion
@@ -299,7 +298,7 @@ namespace HelloDev.Logging
         private static string FormatMessage(string systemId, string icon, string message)
         {
             var config = GetOrCreateConfig(systemId);
-            return $"<color={config.Color}>[{config.TagName}]</color> {icon} {message}";
+            return $"<color={config.HexColor}>[{config.TagName}]</color> {icon} {message}";
         }
 
         private static LogSystemConfig GetOrCreateConfig(string systemId)

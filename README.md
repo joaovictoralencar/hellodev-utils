@@ -284,7 +284,16 @@ None - this is the foundation package.
 
 ## Changelog
 
-### v1.2.1 (2026-01-03)
+### v1.3.0 (2026-01-03)
+**Logging System Refactor:**
+- Logger now configured via `LoggerSettings_SO` ScriptableObject instead of hardcoded static constructor
+- Added `LoggerSettings_SO` for inspector-configurable log systems with per-system colors, tags, and enable toggles
+- Added `LoggerInitializer` MonoBehaviour for early initialization (before GameBootstrap)
+- `LogSystemConfig` converted from readonly struct to serializable class for inspector editing
+- Added `Logger.ClearAllSystems()` method for configuration reset
+- `LogVerbose` now uses configured system colors instead of hardcoded grey
+
+### v1.2.1 (2026-01-02)
 **Logging:**
 - Added HelloDev.Logging module for consistent logging across HelloDev packages
 - SaveService now uses Logger for warnings instead of Debug.LogWarning

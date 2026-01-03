@@ -1,0 +1,89 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed465fd2dfb36a74cb826ceb471fefc6, type: 3}
+  m_Name: LoggerSettings
+  m_EditorClassIdentifier:
+  isEnabled: 1
+  isVerboseEnabled: 1
+  systems:
+  - systemId: Bootstrap
+    color: {r: 1, g: 0.32, b: 0.32, a: 1}
+    tagName: Bootstrap
+    enabled: 1
+  - systemId: Save
+    color: {r: 0.13, g: 0.59, b: 0.95, a: 1}
+    tagName: Save
+    enabled: 1
+  - systemId: SaveSetup
+    color: {r: 0.01, g: 0.66, b: 0.96, a: 1}
+    tagName: SaveSetup
+    enabled: 1
+  - systemId: Tween
+    color: {r: 0.18, g: 0.80, b: 0.44, a: 1}
+    tagName: Tween
+    enabled: 1
+  - systemId: UI
+    color: {r: 0.61, g: 0.15, b: 0.69, a: 1}
+    tagName: UI
+    enabled: 1
+  - systemId: WorldFlags
+    color: {r: 0.67, g: 0.28, b: 0.74, a: 1}
+    tagName: WorldFlags
+    enabled: 1
+  - systemId: Conditions
+    color: {r: 1, g: 0.79, b: 0.16, a: 1}
+    tagName: Conditions
+    enabled: 1
+  - systemId: Quest.Manager
+    color: {r: 0, g: 0.74, b: 0.83, a: 1}
+    tagName: Manager
+    enabled: 1
+  - systemId: Quest.Quest
+    color: {r: 1, g: 0.76, b: 0.03, a: 1}
+    tagName: Quest
+    enabled: 1
+  - systemId: Quest.Task
+    color: {r: 0.30, g: 0.71, b: 0.67, a: 1}
+    tagName: Task
+    enabled: 1
+  - systemId: Quest.TaskGroup
+    color: {r: 0.30, g: 0.71, b: 0.67, a: 1}
+    tagName: TaskGroup
+    enabled: 1
+  - systemId: Quest.Stage
+    color: {r: 0.94, g: 0.33, b: 0.31, a: 1}
+    tagName: Stage
+    enabled: 1
+  - systemId: Quest.Group
+    color: {r: 0.49, g: 0.34, b: 0.76, a: 1}
+    tagName: Group
+    enabled: 1
+  - systemId: Quest.QuestLine
+    color: {r: 0.93, g: 0.25, b: 0.48, a: 1}
+    tagName: QuestLine
+    enabled: 1
+  - systemId: Quest.Save
+    color: {r: 0.13, g: 0.59, b: 0.95, a: 1}
+    tagName: Save
+    enabled: 1
+  - systemId: Quest.SaveManager
+    color: {r: 0.01, g: 0.80, b: 0.82, a: 1}
+    tagName: SaveManager
+    enabled: 1
+  - systemId: Quest.Choice
+    color: {r: 0.91, g: 0.12, b: 0.39, a: 1}
+    tagName: Choice
+    enabled: 1
+  - systemId: Quest.UI
+    color: {r: 0.61, g: 0.15, b: 0.69, a: 1}
+    tagName: UI
+    enabled: 1
