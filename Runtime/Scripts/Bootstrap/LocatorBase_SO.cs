@@ -17,7 +17,6 @@ namespace HelloDev.Utils
     /// <code>
     /// public class MyLocator_SO : LocatorBase_SO
     /// {
-    ///     public override string LocatorId => "HelloDev.MySystem";
     ///     public override bool IsAvailable => _manager != null;
     ///
     ///     private MyManager _manager;
@@ -30,16 +29,6 @@ namespace HelloDev.Utils
     public abstract class LocatorBase_SO : ScriptableObject
     {
         /// <summary>
-        /// Unique identifier for this locator type.
-        /// Convention: "HelloDev.{Package}.{LocatorName}"
-        /// </summary>
-        /// <example>
-        /// "HelloDev.Conditions.WorldFlags"
-        /// "HelloDev.QuestSystem.Save"
-        /// </example>
-        public abstract string LocatorId { get; }
-
-        /// <summary>
         /// Whether the manager for this locator is registered and ready.
         /// </summary>
         /// <remarks>
@@ -50,35 +39,9 @@ namespace HelloDev.Utils
 
         /// <summary>
         /// Called when a bootstrap system is about to initialize all systems.
-        /// Override to prepare for controlled initialization.
+        /// Override to prepare for controlled initialization (e.g., clearing cached manager references).
         /// </summary>
-        /// <remarks>
-        /// Default implementation does nothing. Override if your locator needs
-        /// to clear state or prepare for a fresh initialization cycle.
-        /// </remarks>
         public virtual void PrepareForBootstrap()
-        {
-            // Override in derived class if needed
-        }
-
-        /// <summary>
-        /// Called after all bootstrap initialization completes successfully.
-        /// Override to perform post-initialization setup.
-        /// </summary>
-        /// <remarks>
-        /// At this point, all locators should be available and ready.
-        /// Safe to make cross-locator calls here.
-        /// </remarks>
-        public virtual void OnBootstrapComplete()
-        {
-            // Override in derived class if needed
-        }
-
-        /// <summary>
-        /// Called when the bootstrap system shuts down.
-        /// Override to clean up any bootstrap-specific state.
-        /// </summary>
-        public virtual void OnBootstrapShutdown()
         {
             // Override in derived class if needed
         }

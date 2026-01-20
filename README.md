@@ -221,20 +221,14 @@ public class MyLocator_SO : LocatorBase_SO
 {
     private MyManager _manager;
 
-    public override string LocatorId => "HelloDev.MySystem";
     public override bool IsAvailable => _manager != null;
+
+    public MyManager Manager => _manager;
 
     public void Register(MyManager manager) => _manager = manager;
     public void Unregister(MyManager manager)
     {
         if (_manager == manager) _manager = null;
-    }
-
-    // Locator methods
-    public void DoSomething()
-    {
-        if (!IsAvailable) return;
-        _manager.DoSomething();
     }
 }
 ```
@@ -276,13 +270,18 @@ None - this is the foundation package.
 ### LocatorBase_SO
 | Member | Description |
 |--------|-------------|
-| `LocatorId` | Unique identifier (e.g., "HelloDev.MySystem") |
-| `IsAvailable` | Whether the locator is ready to use |
-| `PrepareForBootstrap()` | Called before bootstrap begins |
-| `OnBootstrapComplete()` | Called after all systems initialize |
-| `OnBootstrapShutdown()` | Called during shutdown |
+| `IsAvailable` | Whether the locator's manager is registered and ready |
+| `PrepareForBootstrap()` | Called before bootstrap begins; override to clear cached state |
 
 ## Changelog
+
+### v1.4.0 (2026-01-19)
+**Locator Simplification (Breaking):**
+- Removed `LocatorId` property from `LocatorBase_SO` (unused)
+- Removed `OnBootstrapComplete()` and `OnBootstrapShutdown()` lifecycle methods (unused)
+- Removed delegation methods from `UnifiedSaveLocator_SO` - use `.Manager` to access methods directly
+- Locators now only provide: `IsAvailable`, `Manager`, `Register()`, `Unregister()`, and events
+- **Migration:** Replace `locator.MethodName()` with `locator.Manager.MethodName()`
 
 ### v1.3.0 (2026-01-03)
 **Logging System Refactor:**

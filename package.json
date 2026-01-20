@@ -1,6 +1,6 @@
 {
   "name": "com.hellodev.utils",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "displayName": "HelloDev Utils",
   "description": "Foundation utilities for HelloDev packages. Includes RuntimeScriptableObject base class for auto-resetting ScriptableObjects and extension methods for safe event handling.",
   "unity": "6000.3",
