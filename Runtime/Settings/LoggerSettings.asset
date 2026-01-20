@@ -87,3 +87,11 @@ MonoBehaviour:
     color: {r: 0.61, g: 0.15, b: 0.69, a: 1}
     tagName: UI
     enabled: 1
+  - systemId: Quest.Tutorial
+    color: {r: 0.25, g: 0.88, b: 0.82, a: 1}
+    tagName: Tutorial
+    enabled: 1
+  - systemId: Quest.Achievement
+    color: {r: 1, g: 0.84, b: 0, a: 1}
+    tagName: Achievement
+    enabled: 1

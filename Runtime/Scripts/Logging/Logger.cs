@@ -12,7 +12,6 @@ namespace HelloDev.Logging
         // Core HelloDev systems
         public const string Bootstrap = "Bootstrap";
         public const string Save = "Save";
-        public const string SaveSetup = "SaveSetup";
         public const string Tween = "Tween";
         public const string UI = "UI";
         public const string WorldFlags = "WorldFlags";
