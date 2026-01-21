@@ -16,6 +16,7 @@ namespace HelloDev.Logging
         public const string UI = "UI";
         public const string WorldFlags = "WorldFlags";
         public const string Conditions = "Conditions";
+        public const string UpdateSystem = "UpdateSystem";
     }
 
     /// <summary>

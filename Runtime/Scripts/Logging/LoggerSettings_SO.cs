@@ -69,6 +69,7 @@ namespace HelloDev.Logging
             systems.Add(new LogSystemConfig("UI", HexToColor("#9C27B0"), "UI"));
             systems.Add(new LogSystemConfig("WorldFlags", HexToColor("#AB47BC"), "WorldFlags"));
             systems.Add(new LogSystemConfig("Conditions", HexToColor("#FFCA28"), "Conditions"));
+            systems.Add(new LogSystemConfig("UpdateSystem", HexToColor("#4CAF50"), "UpdateSystem"));
 
             // Quest system
             systems.Add(new LogSystemConfig("Quest.Manager", HexToColor("#00BCD4"), "Manager"));
