@@ -273,61 +273,6 @@ None - this is the foundation package.
 | `IsAvailable` | Whether the locator's manager is registered and ready |
 | `PrepareForBootstrap()` | Called before bootstrap begins; override to clear cached state |
 
-## Changelog
-
-### v1.4.0 (2026-01-19)
-**Locator Simplification (Breaking):**
-- Removed `LocatorId` property from `LocatorBase_SO` (unused)
-- Removed `OnBootstrapComplete()` and `OnBootstrapShutdown()` lifecycle methods (unused)
-- Removed delegation methods from `UnifiedSaveLocator_SO` - use `.Manager` to access methods directly
-- Locators now only provide: `IsAvailable`, `Manager`, `Register()`, `Unregister()`, and events
-- **Migration:** Replace `locator.MethodName()` with `locator.Manager.MethodName()`
-
-### v1.3.0 (2026-01-03)
-**Logging System Refactor:**
-- Logger now configured via `LoggerSettings_SO` ScriptableObject instead of hardcoded static constructor
-- Added `LoggerSettings_SO` for inspector-configurable log systems with per-system colors, tags, and enable toggles
-- Added `LoggerInitializer` MonoBehaviour for early initialization (before GameBootstrap)
-- `LogSystemConfig` converted from readonly struct to serializable class for inspector editing
-- Added `Logger.ClearAllSystems()` method for configuration reset
-- `LogVerbose` now uses configured system colors instead of hardcoded grey
-
-### v1.2.1 (2026-01-02)
-**Logging:**
-- Added HelloDev.Logging module for consistent logging across HelloDev packages
-- SaveService now uses Logger for warnings instead of Debug.LogWarning
-- Removed redundant log message from SetProvider
-
-### v1.2.0 (2025-12-31)
-**Bootstrap Support:**
-- Added `SelfInitialize` property to `IBootstrapInitializable` interface
-- When true (default), systems self-initialize in Unity lifecycle
-- When false, systems wait for `GameBootstrap` to call `InitializeAsync`
-
-### v1.1.0 (2025-12-21)
-**Performance:**
-- `DestroyAllChildren` now uses zero-allocation reverse iteration instead of creating a temporary List
-- `RuntimeScriptableObject.Instances` changed from `List` to `HashSet` for O(1) add/remove
-
-**Robustness:**
-- Added null check in `ResetInstances()` to handle destroyed ScriptableObjects
-
-**API Improvements:**
-- Renamed `Unsubscribe` to `SafeUnsubscribe` for consistency with other Safe* methods
-- Added 4-parameter `UnityEvent<T0,T1,T2,T3>` support
-- Added conditional `DestroyAllChildren(Predicate<Transform>)` overload
-- Added `Description` property to `RuntimeScriptableObject`
-
-**Documentation:**
-- Added XML documentation to all public classes and methods
-- Removed unnecessary `#region` wrappers
-
-**Package:**
-- Updated Unity version requirement to 6000.3
-
-### v1.0.0
-- Initial release
-
 ## License
 
 MIT License

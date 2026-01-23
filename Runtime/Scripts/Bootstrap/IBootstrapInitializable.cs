@@ -73,8 +73,9 @@ namespace HelloDev.Utils
         /// <remarks>
         /// When true (default), the system initializes itself during Unity's lifecycle.
         /// When false, the system waits for GameBootstrap to call <see cref="InitializeAsync"/>.
+        /// GameBootstrap automatically sets this to false for systems in its list.
         /// </remarks>
-        bool SelfInitialize { get; }
+        bool SelfInitialize { get; set; }
         /// <summary>
         /// Initialization priority. Lower numbers initialize first.
         /// </summary>

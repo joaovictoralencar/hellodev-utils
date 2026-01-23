@@ -19,14 +19,21 @@ namespace HelloDev.Logging
         [Tooltip("The logger settings asset containing system configurations.")]
         private LoggerSettings_SO settings;
 
+        [SerializeField]
+        private bool selfInitialize = true;
+
         private bool _isInitialized;
 
         #region IBootstrapInitializable
 
         /// <summary>
-        /// Always true - logger must initialize before bootstrap.
+        /// Whether to self-initialize. Default true since logger must init before bootstrap.
         /// </summary>
-        public bool SelfInitialize => true;
+        public bool SelfInitialize
+        {
+            get => selfInitialize;
+            set => selfInitialize = value;
+        }
 
         /// <summary>
         /// Priority 0 - Core Services (earliest possible).
@@ -65,7 +72,7 @@ namespace HelloDev.Logging
 
         private void Awake()
         {
-            if (_isInitialized) return;
+            if (!selfInitialize || _isInitialized) return;
             Initialize();
         }
 
