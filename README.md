@@ -8,6 +8,7 @@ Foundation utilities for HelloDev packages. This is the base package that other 
 - **UnityEvent Extensions** - Safe event handling (`SafeInvoke`, `SafeSubscribe`, `SafeUnsubscribe`) with support for 0-4 parameters
 - **Transform Extensions** - Transform and GameObject utilities (`DestroyAllChildren` with optional condition filter)
 - **Bootstrap Support** - `IBootstrapInitializable` interface for controlled system initialization
+- **GameContext** - Generic service container for decoupled manager registration and lookup
 - **Locator Pattern** - `LocatorBase_SO` base class for locator ScriptableObjects
 - **Tweening Abstractions** - `ITweenProvider`, `ITweenHandle`, `EaseType` for animation abstraction
 
@@ -170,11 +171,17 @@ public class MyManager : MonoBehaviour, IBootstrapInitializable
     [SerializeField] private bool selfInitialize = true;
 
     private bool _isInitialized;
+    private GameContext _context;
 
     // IBootstrapInitializable implementation
-    public bool SelfInitialize => selfInitialize;
+    public bool SelfInitialize { get => selfInitialize; set => selfInitialize = value; }
     public int InitializationPriority => 150; // Game systems layer
     public bool IsInitialized => _isInitialized;
+
+    public void ReceiveContext(GameContext context)
+    {
+        _context = context;
+    }
 
     void OnEnable()
     {
@@ -187,12 +194,16 @@ public class MyManager : MonoBehaviour, IBootstrapInitializable
         if (_isInitialized) return Task.CompletedTask;
 
         // Initialize your system here
+        // Register with context for other systems to access
+        _context?.Register<MyManager>(this);
+
         _isInitialized = true;
         return Task.CompletedTask;
     }
 
     public void Shutdown()
     {
+        _context?.Unregister<MyManager>();
         _isInitialized = false;
     }
 }
@@ -207,6 +218,41 @@ public class MyManager : MonoBehaviour, IBootstrapInitializable
 | 200-249 | Persistence | SaveManager |
 | 250-299 | Data Loading | Load saves, restore state |
 | 300+ | Gameplay | UI, Audio |
+
+### GameContext (Service Container)
+
+A generic service container that enables decoupled communication between managers:
+
+```csharp
+using HelloDev.Utils;
+
+// In a manager's InitializeAsync:
+public Task InitializeAsync()
+{
+    // Register yourself
+    _context?.Register<IMyManager>(this);
+
+    // Access other managers that initialized earlier
+    if (_context.TryGet<ISaveManager>(out var saveManager))
+    {
+        saveManager.RegisterSystem(this);
+    }
+
+    return Task.CompletedTask;
+}
+
+// Check if a service is available
+if (_context.Has<IUpdateManager>())
+{
+    var updateManager = _context.Get<IUpdateManager>();
+}
+```
+
+**Benefits:**
+- GameBootstrap is completely decoupled from manager types
+- Type-safe access via generics
+- Testable - create mock context with mock services
+- Scalable - add new managers without changing GameBootstrap
 
 ### Locator Base
 
@@ -264,8 +310,19 @@ None - this is the foundation package.
 | `SelfInitialize` | True = self-init in Unity lifecycle, False = wait for bootstrap |
 | `InitializationPriority` | Sort order for initialization (lower = earlier) |
 | `IsInitialized` | Whether initialization is complete |
+| `ReceiveContext(GameContext)` | Called by bootstrap before InitializeAsync; store for service registration |
 | `InitializeAsync()` | Async initialization method |
 | `Shutdown()` | Cleanup method |
+
+### GameContext
+| Member | Description |
+|--------|-------------|
+| `Register<T>(T service)` | Register a service by interface type |
+| `Get<T>()` | Get a registered service (throws if not found) |
+| `TryGet<T>(out T service)` | Try to get a service (returns false if not found) |
+| `Has<T>()` | Check if a service is registered |
+| `Unregister<T>()` | Unregister a service |
+| `Clear()` | Clear all services (called on shutdown) |
 
 ### LocatorBase_SO
 | Member | Description |

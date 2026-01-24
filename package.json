@@ -1,15 +1,17 @@
 {
   "name": "com.hellodev.utils",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "displayName": "HelloDev Utils",
-  "description": "Foundation utilities for HelloDev packages. Includes RuntimeScriptableObject base class for auto-resetting ScriptableObjects and extension methods for safe event handling.",
+  "description": "Foundation utilities for HelloDev packages. Includes RuntimeScriptableObject base class, GameContext service container, IBootstrapInitializable interface, and extension methods for safe event handling.",
   "unity": "6000.3",
   "unityRelease": "0f1",
   "keywords": [
     "utilities",
     "scriptableobject",
     "extensions",
-    "events"
+    "events",
+    "bootstrap",
+    "service-container"
   ],
   "author": {
     "name": "HelloDev",

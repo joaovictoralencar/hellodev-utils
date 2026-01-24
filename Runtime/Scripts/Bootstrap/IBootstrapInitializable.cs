@@ -67,6 +67,18 @@ namespace HelloDev.Utils
     public interface IBootstrapInitializable
     {
         /// <summary>
+        /// Called by GameBootstrap before InitializeAsync.
+        /// Store the context if you need to register services or access other managers.
+        /// </summary>
+        /// <remarks>
+        /// Systems that register themselves (like UpdateManagerBehaviour) or need to access
+        /// other services (like QuestManager accessing SaveManager) should implement this.
+        /// Systems that don't need the context can provide an empty implementation.
+        /// </remarks>
+        /// <param name="context">The game context for service registration and lookup.</param>
+        void ReceiveContext(GameContext context);
+
+        /// <summary>
         /// Whether this system should self-initialize in Unity lifecycle (OnEnable/Start).
         /// Set to false when using GameBootstrap for coordinated initialization.
         /// </summary>
