@@ -14,9 +14,13 @@ namespace HelloDev.Logging
         public const string Save = "Save";
         public const string Tween = "Tween";
         public const string UI = "UI";
+        public const string UIPopup = "UI.Popup";
+        public const string UINavigation = "UI.Navigation";
         public const string WorldFlags = "WorldFlags";
         public const string Conditions = "Conditions";
         public const string UpdateSystem = "UpdateSystem";
+        public const string Input = "Input";
+        public const string InputRebind = "Input.Rebind";
     }
 
     /// <summary>
