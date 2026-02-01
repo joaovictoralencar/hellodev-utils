@@ -28,7 +28,7 @@ MonoBehaviour:
     tagName: SaveSetup
     enabled: 1
   - systemId: Tween
-    color: {r: 0.18, g: 0.80, b: 0.44, a: 1}
+    color: {r: 0.18, g: 0.8, b: 0.44, a: 1}
     tagName: Tween
     enabled: 1
   - systemId: UI
@@ -36,11 +36,11 @@ MonoBehaviour:
     tagName: UI
     enabled: 1
   - systemId: UI.Popup
-    color: {r: 0.91, g: 0.30, b: 0.24, a: 1}
+    color: {r: 0.91, g: 0.3, b: 0.24, a: 1}
     tagName: Popup
     enabled: 1
   - systemId: UI.Navigation
-    color: {r: 0.20, g: 0.60, b: 0.86, a: 1}
+    color: {r: 0.2, g: 0.6, b: 0.86, a: 1}
     tagName: Navigation
     enabled: 1
   - systemId: WorldFlags
@@ -52,7 +52,7 @@ MonoBehaviour:
     tagName: Conditions
     enabled: 1
   - systemId: UpdateSystem
-    color: {r: 0.30, g: 0.69, b: 0.31, a: 1}
+    color: {r: 0.3, g: 0.69, b: 0.31, a: 1}
     tagName: UpdateSystem
     enabled: 1
   - systemId: Quest.Manager
@@ -64,11 +64,11 @@ MonoBehaviour:
     tagName: Quest
     enabled: 1
   - systemId: Quest.Task
-    color: {r: 0.30, g: 0.71, b: 0.67, a: 1}
+    color: {r: 0.3, g: 0.71, b: 0.67, a: 1}
     tagName: Task
     enabled: 1
   - systemId: Quest.TaskGroup
-    color: {r: 0.30, g: 0.71, b: 0.67, a: 1}
+    color: {r: 0.3, g: 0.71, b: 0.67, a: 1}
     tagName: TaskGroup
     enabled: 1
   - systemId: Quest.Stage
@@ -88,7 +88,7 @@ MonoBehaviour:
     tagName: Save
     enabled: 1
   - systemId: Quest.SaveManager
-    color: {r: 0.01, g: 0.80, b: 0.82, a: 1}
+    color: {r: 0.01, g: 0.8, b: 0.82, a: 1}
     tagName: SaveManager
     enabled: 1
   - systemId: Quest.Choice
@@ -99,7 +99,7 @@ MonoBehaviour:
     color: {r: 0.61, g: 0.15, b: 0.69, a: 1}
     tagName: UI
     enabled: 1
-  - systemId: Quest.Tutorial
+  - systemId: Tutorial
     color: {r: 0.25, g: 0.88, b: 0.82, a: 1}
     tagName: Tutorial
     enabled: 1

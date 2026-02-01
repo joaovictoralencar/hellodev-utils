@@ -21,16 +21,8 @@ namespace HelloDev.Utils
     /// </item>
     /// </list>
     /// <para>
-    /// Priority ranges:
+    /// Initialization order is controlled by the GameBootstrap group configuration.
     /// </para>
-    /// <list type="bullet">
-    /// <item><term>0-99</term><description>Core services (logging, analytics, input)</description></item>
-    /// <item><term>100-149</term><description>Data layer (WorldFlags, EventSystem)</description></item>
-    /// <item><term>150-199</term><description>Game systems (Quests, Inventory)</description></item>
-    /// <item><term>200-249</term><description>Persistence (SaveManager)</description></item>
-    /// <item><term>250-299</term><description>Data loading (load saves, restore state)</description></item>
-    /// <item><term>300+</term><description>Gameplay (UI, Audio, Scene-specific)</description></item>
-    /// </list>
     /// </remarks>
     /// <example>
     /// <code>
@@ -39,7 +31,6 @@ namespace HelloDev.Utils
     ///     [SerializeField] private bool selfInitialize = true;
     ///
     ///     public bool SelfInitialize => selfInitialize;
-    ///     public int InitializationPriority => 150;
     ///     public bool IsInitialized => _isInitialized;
     ///     private bool _isInitialized;
     ///
@@ -88,19 +79,6 @@ namespace HelloDev.Utils
         /// GameBootstrap automatically sets this to false for systems in its list.
         /// </remarks>
         bool SelfInitialize { get; set; }
-        /// <summary>
-        /// Initialization priority. Lower numbers initialize first.
-        /// </summary>
-        /// <remarks>
-        /// Suggested ranges:
-        /// <list type="bullet">
-        /// <item><term>0-99</term><description>Core services</description></item>
-        /// <item><term>100-199</term><description>Data systems</description></item>
-        /// <item><term>200-299</term><description>Persistence</description></item>
-        /// <item><term>300+</term><description>Gameplay</description></item>
-        /// </list>
-        /// </remarks>
-        int InitializationPriority { get; }
 
         /// <summary>
         /// Called by bootstrap to initialize. Should return when initialization is complete.

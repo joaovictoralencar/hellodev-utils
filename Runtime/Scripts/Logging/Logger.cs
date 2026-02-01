@@ -21,6 +21,7 @@ namespace HelloDev.Logging
         public const string UpdateSystem = "UpdateSystem";
         public const string Input = "Input";
         public const string InputRebind = "Input.Rebind";
+        public const string Tutorial = "Tutorial";
     }
 
     /// <summary>
@@ -211,6 +212,18 @@ namespace HelloDev.Logging
         }
 
         /// <summary>
+        /// Logs a warning message for a specific system.
+        /// </summary>
+        /// <param name="systemId">The system ID.</param>
+        /// <param name="message">The message to log.</param>
+        /// <param name="context">Unity Object context for clickable reference.</param>
+        public static void LogWarning(string systemId, string message, Object context)
+        {
+            if (!ShouldLog(systemId)) return;
+            Debug.LogWarning(FormatMessage(systemId, IconWarning, message), context);
+        }
+
+        /// <summary>
         /// Logs an error message for a specific system.
         /// </summary>
         /// <param name="systemId">The system ID.</param>
@@ -219,6 +232,18 @@ namespace HelloDev.Logging
         {
             if (!ShouldLog(systemId)) return;
             Debug.LogError(FormatMessage(systemId, IconError, message));
+        }
+
+        /// <summary>
+        /// Logs an error message for a specific system.
+        /// </summary>
+        /// <param name="systemId">The system ID.</param>
+        /// <param name="message">The message to log.</param>
+        /// <param name="context">Unity Object context for clickable reference.</param>
+        public static void LogError(string systemId, string message, Object context)
+        {
+            if (!ShouldLog(systemId)) return;
+            Debug.LogError(FormatMessage(systemId, IconError, message), context);
         }
 
         /// <summary>
@@ -234,6 +259,22 @@ namespace HelloDev.Logging
 
             var config = GetOrCreateConfig(systemId);
             Debug.Log($"<color={config.HexColor}>[{config.TagName}]</color> {message}");
+        }
+
+        /// <summary>
+        /// Logs a verbose message (only when IsVerboseEnabled is true).
+        /// Uses the configured system color but with a dimmed message.
+        /// </summary>
+        /// <param name="systemId">The system ID.</param>
+        /// <param name="message">The message to log.</param>
+        /// <param name="context">Unity Object context for clickable reference.</param>
+        public static void LogVerbose(string systemId, string message, Object context)
+        {
+            if (!IsEnabled || !IsVerboseEnabled) return;
+            if (!IsSystemEnabled(systemId)) return;
+
+            var config = GetOrCreateConfig(systemId);
+            Debug.Log($"<color={config.HexColor}>[{config.TagName}]</color> {message}", context);
         }
 
         #endregion
