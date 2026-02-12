@@ -62,7 +62,7 @@ namespace HelloDev.Logging
         private const string IconComplete = "\u2713";   // Check
         private const string IconFail = "\u2717";       // Cross
         private const string IconTransition = "\u2192"; // Arrow
-        private const string IconWarning = "!";
+        private const string IconWarning = "\u26A0";
         private const string IconError = "X";
 
         #endregion
