@@ -31,7 +31,7 @@ namespace HelloDev.Tweening
         public static void SetProvider(ITweenProvider provider)
         {
             _provider = provider;
-            Logger.LogVerbose(LogSystems.Tween, $"Provider set: {provider?.GetType().Name ?? "null"}");
+            Logger.LogVerbose("Tween", $"Provider set: {provider?.GetType().Name ?? "null"}");
         }
 
         /// <summary>

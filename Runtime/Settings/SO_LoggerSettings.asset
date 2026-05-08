@@ -14,6 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isEnabled: 0
   isVerboseEnabled: 1
+  generatedOutputFolder: Assets/_Clocktower/Settings/Generated
+  generatedFileName: LogIds
+  generatedNamespace: HelloDev.Logging
   systems:
   - systemId: Bootstrap
     color: {r: 1, g: 0.32, b: 0.32, a: 1}

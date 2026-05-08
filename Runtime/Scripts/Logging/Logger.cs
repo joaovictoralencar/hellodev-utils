@@ -1,54 +1,30 @@
 using System.Collections.Generic;
+using Sirenix.Utilities;
 using UnityEngine;
 
 namespace HelloDev.Logging
 {
     /// <summary>
-    /// System ID constants for centralized logging.
-    /// Use these with Logger methods: Logger.LogWarning(LogSystems.Save, "message")
-    /// </summary>
-    public static class LogSystems
-    {
-        // Core HelloDev systems
-        public const string Bootstrap = "Bootstrap";
-        public const string Save = "Save";
-        public const string Tween = "Tween";
-        public const string UI = "UI";
-        public const string UIPopup = "UI.Popup";
-        public const string UINavigation = "UI.Navigation";
-        public const string WorldFlags = "WorldFlags";
-        public const string Conditions = "Conditions";
-        public const string UpdateSystem = "UpdateSystem";
-        public const string Input = "Input";
-        public const string InputRebind = "Input.Rebind";
-        public const string Tutorial = "Tutorial";
-    }
-
-    /// <summary>
     /// Centralized logging system for all HelloDev packages.
-    /// Supports system registration, per-system enable/disable, and semantic logging.
-    ///
-    /// Usage: Logger.LogWarning(LogSystems.Save, "No provider configured.");
-    ///
     /// Each package should create its own logger helper that self-registers its systems.
-    /// See QuestLogger for an example pattern.
     /// </summary>
     public static class Logger
     {
         #region State
 
         private static readonly Dictionary<string, LogSystemConfig> _systems = new();
-        private static readonly HashSet<string> _disabledSystems = new();
-
-        // Note: Systems are now configured via LoggerSettings_SO and registered by LoggerInitializer.
-        // The static constructor is removed to allow external configuration.
-
+        
+        private static bool _isEnabled;
+        
         #endregion
 
         #region Global Toggles
+        
+        public static bool IsInitialized { get; set; }
+
 
         /// <summary>Master toggle for all logging. When false, no logs are output.</summary>
-        public static bool IsEnabled { get; set; } = true;
+        public static bool IsEnabled { get => !IsInitialized || _isEnabled; set => _isEnabled = value; }
 
         /// <summary>Verbose logging toggle. When false, LogVerbose calls are skipped.</summary>
         public static bool IsVerboseEnabled { get; set; } = true;
@@ -57,11 +33,7 @@ namespace HelloDev.Logging
 
         #region Icons (Unicode)
 
-        private const string IconUpdate = "\u2022";     // Bullet (standard log)
-        private const string IconStart = "\u25B6";      // Play
-        private const string IconComplete = "\u2713";   // Check
-        private const string IconFail = "\u2717";       // Cross
-        private const string IconTransition = "\u2192"; // Arrow
+        private const string IconUpdate = "\u2022";
         private const string IconWarning = "\u26A0";
         private const string IconError = "X";
 
@@ -92,7 +64,6 @@ namespace HelloDev.Logging
             if (string.IsNullOrEmpty(systemId)) return;
 
             _systems.Remove(systemId);
-            _disabledSystems.Remove(systemId);
         }
 
         /// <summary>
@@ -117,11 +88,7 @@ namespace HelloDev.Logging
         public static void SetSystemEnabled(string systemId, bool enabled)
         {
             if (string.IsNullOrEmpty(systemId)) return;
-
-            if (enabled)
-                _disabledSystems.Remove(systemId);
-            else
-                _disabledSystems.Add(systemId);
+            _systems[systemId].Enabled = enabled;
         }
 
         /// <summary>
@@ -132,7 +99,11 @@ namespace HelloDev.Logging
         public static bool IsSystemEnabled(string systemId)
         {
             if (string.IsNullOrEmpty(systemId)) return false;
-            return !_disabledSystems.Contains(systemId);
+            if (!IsInitialized || _systems.ContainsKey(systemId)) return !IsInitialized || _systems[systemId].Enabled;
+            // Fallback: auto-register with default color based on severity
+            Debug.LogWarning($"[Logger] System '{systemId}' is not registered. Auto-registering with default color. " +
+                             "Consider adding it to LoggerSettings_SO and regenerating constants.");
+            return true;
         }
 
         /// <summary>
@@ -141,17 +112,7 @@ namespace HelloDev.Logging
         /// <param name="enabled">Whether all systems should be enabled.</param>
         public static void SetAllSystemsEnabled(bool enabled)
         {
-            if (enabled)
-            {
-                _disabledSystems.Clear();
-            }
-            else
-            {
-                foreach (var systemId in _systems.Keys)
-                {
-                    _disabledSystems.Add(systemId);
-                }
-            }
+            _systems.ForEach(s => s.Value.Enabled = enabled);
         }
 
         /// <summary>
@@ -170,7 +131,6 @@ namespace HelloDev.Logging
         public static void ClearAllSystems()
         {
             _systems.Clear();
-            _disabledSystems.Clear();
         }
 
         #endregion
@@ -208,7 +168,7 @@ namespace HelloDev.Logging
         public static void LogWarning(string systemId, string message)
         {
             if (!ShouldLog(systemId)) return;
-            Debug.LogWarning(FormatMessage(systemId, IconWarning, message));
+            Debug.LogWarning(FormatMessage(systemId, IconWarning, message, LogSeverity.Warning));
         }
 
         /// <summary>
@@ -220,7 +180,7 @@ namespace HelloDev.Logging
         public static void LogWarning(string systemId, string message, Object context)
         {
             if (!ShouldLog(systemId)) return;
-            Debug.LogWarning(FormatMessage(systemId, IconWarning, message), context);
+            Debug.LogWarning(FormatMessage(systemId, IconWarning, message, LogSeverity.Warning), context);
         }
 
         /// <summary>
@@ -231,7 +191,7 @@ namespace HelloDev.Logging
         public static void LogError(string systemId, string message)
         {
             if (!ShouldLog(systemId)) return;
-            Debug.LogError(FormatMessage(systemId, IconError, message));
+            Debug.LogError(FormatMessage(systemId, IconError, message, LogSeverity.Error));
         }
 
         /// <summary>
@@ -243,7 +203,7 @@ namespace HelloDev.Logging
         public static void LogError(string systemId, string message, Object context)
         {
             if (!ShouldLog(systemId)) return;
-            Debug.LogError(FormatMessage(systemId, IconError, message), context);
+            Debug.LogError(FormatMessage(systemId, IconError, message, LogSeverity.Error), context);
         }
 
         /// <summary>
@@ -279,82 +239,74 @@ namespace HelloDev.Logging
 
         #endregion
 
-        #region Semantic Logging
-
-        /// <summary>
-        /// Logs a start event (entity started).
-        /// </summary>
-        /// <param name="systemId">The system ID.</param>
-        /// <param name="entityType">Type of entity (e.g., "Quest", "Task").</param>
-        /// <param name="entityName">Name of the entity.</param>
-        public static void LogStart(string systemId, string entityType, string entityName)
-        {
-            if (!ShouldLog(systemId)) return;
-            Debug.Log(FormatMessage(systemId, IconStart, $"{entityType} <b>'{entityName}'</b> started"));
-        }
-
-        /// <summary>
-        /// Logs a completion event (entity completed).
-        /// </summary>
-        /// <param name="systemId">The system ID.</param>
-        /// <param name="entityType">Type of entity.</param>
-        /// <param name="entityName">Name of the entity.</param>
-        public static void LogComplete(string systemId, string entityType, string entityName)
-        {
-            if (!ShouldLog(systemId)) return;
-            Debug.Log(FormatMessage(systemId, IconComplete, $"{entityType} <b>'{entityName}'</b> completed"));
-        }
-
-        /// <summary>
-        /// Logs a failure event (entity failed).
-        /// </summary>
-        /// <param name="systemId">The system ID.</param>
-        /// <param name="entityType">Type of entity.</param>
-        /// <param name="entityName">Name of the entity.</param>
-        public static void LogFail(string systemId, string entityType, string entityName)
-        {
-            if (!ShouldLog(systemId)) return;
-            Debug.Log(FormatMessage(systemId, IconFail, $"{entityType} <b>'{entityName}'</b> failed"));
-        }
-
-        /// <summary>
-        /// Logs a transition event (from one state to another).
-        /// </summary>
-        /// <param name="systemId">The system ID.</param>
-        /// <param name="from">The source state/entity.</param>
-        /// <param name="to">The target state/entity.</param>
-        public static void LogTransition(string systemId, string from, string to)
-        {
-            if (!ShouldLog(systemId)) return;
-            Debug.Log(FormatMessage(systemId, IconTransition, $"<b>'{from}'</b> {IconTransition} <b>'{to}'</b>"));
-        }
-
-        #endregion
-
         #region Internal Helpers
 
         private static bool ShouldLog(string systemId)
         {
+            string parentId = GetParentSystemId(systemId);
             if (!IsEnabled) return false;
             if (string.IsNullOrEmpty(systemId)) return false;
-            return IsSystemEnabled(systemId);
+            return IsSystemEnabled(string.IsNullOrEmpty(parentId) ? systemId : parentId);
         }
 
-        private static string FormatMessage(string systemId, string icon, string message)
+        private static string FormatMessage(string systemId, string icon, string message, LogSeverity severity = LogSeverity.Log)
         {
-            var config = GetOrCreateConfig(systemId);
+            var config = GetOrCreateConfig(systemId, severity);
             return $"<color={config.HexColor}>[{config.TagName}]</color> {icon} {message}";
         }
 
-        private static LogSystemConfig GetOrCreateConfig(string systemId)
+        private static LogSystemConfig GetOrCreateConfig(string systemId, LogSeverity severity = LogSeverity.Log)
         {
+            // Try exact match first
             if (_systems.TryGetValue(systemId, out var config))
                 return config;
 
-            // Auto-register with default white color if not registered
-            config = new LogSystemConfig(systemId, "#FFFFFF", systemId);
+            // Try to find parent system (e.g., "Battle.Player" -> "Battle")
+            string parentId = GetParentSystemId(systemId);
+            if (parentId != null && _systems.TryGetValue(parentId, out var parentConfig))
+            {
+                // Create child config that inherits parent's color and tag
+                var childConfig = new LogSystemConfig(systemId, parentConfig.HexColor, systemId);
+                _systems[systemId] = childConfig;
+                return childConfig;
+            }
+
+            // Fallback: auto-register with default color based on severity
+            Debug.LogWarning($"[Logger] System '{systemId}' is not registered. Auto-registering with default color. " +
+                             "Consider adding it to LoggerSettings_SO and regenerating constants.");
+            string color = severity switch
+            {
+                LogSeverity.Log => "#FFFFFF",
+                LogSeverity.Warning => "#F9A825",
+                LogSeverity.Error => "#D32F2F",
+                _ => "#FFFFFF"
+            };
+            config = new LogSystemConfig(systemId, color, systemId);
             _systems[systemId] = config;
             return config;
+        }
+
+        /// <summary>
+        /// Gets the parent system ID by removing the last dot-separated segment.
+        /// Example: "Battle.Player" -> "Battle", "Battle.Skill.Boomguin" -> "Battle.Skill"
+        /// </summary>
+        /// <param name="systemId">The full system ID.</param>
+        /// <returns>The parent system ID, or null if no parent exists.</returns>
+        private static string GetParentSystemId(string systemId)
+        {
+            if (string.IsNullOrEmpty(systemId)) return null;
+
+            int lastDotIndex = systemId.LastIndexOf('.');
+            if (lastDotIndex <= 0) return null;
+
+            return systemId.Substring(0, lastDotIndex);
+        }
+
+        private enum LogSeverity
+        {
+            Log,
+            Warning,
+            Error
         }
 
         #endregion

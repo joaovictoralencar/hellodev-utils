@@ -25,7 +25,11 @@ namespace HelloDev.Logging
         public string TagName => string.IsNullOrEmpty(tagName) ? systemId : tagName;
 
         /// <summary>Whether logging is enabled for this system.</summary>
-        public bool Enabled => enabled;
+        public bool Enabled
+        {
+            get => enabled;
+            set => enabled = value;
+        }
 
         /// <summary>Default constructor for serialization.</summary>
         public LogSystemConfig() { }
