@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using HelloDev.Logging.Editor;
+#if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
+#endif
 using UnityEngine;
 
 namespace HelloDev.Logging
@@ -23,12 +25,16 @@ namespace HelloDev.Logging
 
         [Header("Code Generation")]
         [SerializeField]
+        #if ODIN_INSPECTOR
         [FolderPath]
+        #endif
         [Tooltip("Folder inside Assets where the generated constants file will be placed.")]
         private string generatedOutputFolder = "Assets/3rdParties/HelloDev/Scripts/Logging/Generated";
 
         [SerializeField]
+        #if ODIN_INSPECTOR
         [ValidateInput("IsValidFileName", "File name cannot be empty or contain invalid characters.")]
+        #endif
         [Tooltip("File name for the generated constants class (without extension).")]
         private string generatedFileName = "LogIds";
 
@@ -88,8 +94,10 @@ namespace HelloDev.Logging
             }
         }
 
+#if ODIN_INSPECTOR
         [Button("Generate System ID Constants", ButtonSizes.Medium)]
         [EnableIf("HasSystems")]
+        #endif
         private void GenerateConstants()
         {
 #if UNITY_EDITOR
@@ -113,10 +121,14 @@ namespace HelloDev.Logging
         
         void SetSystemEnabled(LogSystemConfig s, bool enabled) => s.Enabled = enabled; 
         
+        #if ODIN_INSPECTOR
         [Button]
+        #endif
         void EnableAll() => systems.ForEach(s => SetSystemEnabled(s,true));
         
+        #if ODIN_INSPECTOR
         [Button]
+        #endif
         void DisableAll() => systems.ForEach(s => SetSystemEnabled(s,false));
 #endif
     }
