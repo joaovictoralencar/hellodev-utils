@@ -1,6 +1,6 @@
 {
   "name": "com.hellodev.utils",
-  "version": "1.5.0",
+  "version": "1.0.0",
   "displayName": "HelloDev Utils",
   "description": "Foundation utilities for HelloDev packages. Includes RuntimeScriptableObject base class, GameContext service container, IBootstrapInitializable interface, and extension methods for safe event handling.",
   "unity": "6000.3",
@@ -14,8 +14,8 @@
     "service-container"
   ],
   "author": {
-    "name": "HelloDev",
-    "email": "hello.dev.tecnologia@gmail.com"
+    "email": "hello.dev.tecnologia@gmail.com",
+    "name": "Hello Dev"
   },
   "type": "library"
 }
