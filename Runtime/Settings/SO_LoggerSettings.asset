@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed465fd2dfb36a74cb826ceb471fefc6, type: 3}
   m_Name: SO_LoggerSettings
   m_EditorClassIdentifier: 
-  isEnabled: 1
-  isVerboseEnabled: 0
+  isEnabled: 0
+  isVerboseEnabled: 1
   systems:
   - systemId: Bootstrap
     color: {r: 1, g: 0.32, b: 0.32, a: 1}
@@ -22,27 +22,27 @@ MonoBehaviour:
   - systemId: Save
     color: {r: 0.13, g: 0.59, b: 0.95, a: 1}
     tagName: Save
-    enabled: 1
+    enabled: 0
   - systemId: SaveSetup
     color: {r: 0.01, g: 0.66, b: 0.96, a: 1}
     tagName: SaveSetup
-    enabled: 1
+    enabled: 0
   - systemId: Tween
     color: {r: 0.18, g: 0.8, b: 0.44, a: 1}
     tagName: Tween
-    enabled: 1
+    enabled: 0
   - systemId: UI
     color: {r: 0.61, g: 0.15, b: 0.69, a: 1}
     tagName: UI
-    enabled: 1
+    enabled: 0
   - systemId: UI.Popup
     color: {r: 0.91, g: 0.3, b: 0.24, a: 1}
     tagName: Popup
-    enabled: 1
+    enabled: 0
   - systemId: UI.Navigation
     color: {r: 0.2, g: 0.6, b: 0.86, a: 1}
     tagName: Navigation
-    enabled: 1
+    enabled: 0
   - systemId: WorldFlags
     color: {r: 0.67, g: 0.28, b: 0.74, a: 1}
     tagName: WorldFlags
