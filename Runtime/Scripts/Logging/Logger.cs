@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using Sirenix.Utilities;
 using UnityEngine;
 
 namespace HelloDev.Logging
@@ -112,7 +111,7 @@ namespace HelloDev.Logging
         /// <param name="enabled">Whether all systems should be enabled.</param>
         public static void SetAllSystemsEnabled(bool enabled)
         {
-            _systems.ForEach(s => s.Value.Enabled = enabled);
+            foreach (var kv in _systems) { kv.Value.Enabled = enabled; }
         }
 
         /// <summary>
