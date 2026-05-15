@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+#if UNITY_EDITOR
 using HelloDev.Logging.Editor;
+#endif
 #if ODIN_INSPECTOR
 using Sirenix.OdinInspector;
 #endif
