@@ -8,7 +8,7 @@ Add the package to Unity Package Manager -> Add package from Git URL:
 
 $installUrl
 
-(For a specific release, add #v1.0.1 to the URL after tagging a release.)
+(For a specific release, add #v1.0.2 to the URL after tagging a release.)
 
 ## Usage
 
