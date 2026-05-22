@@ -40,7 +40,6 @@ namespace HelloDev.Tweening
         public static void ClearProvider()
         {
             _provider = null;
-            Logger.LogVerbose("Tween", $"Provider cleared");
         }
     }
 
