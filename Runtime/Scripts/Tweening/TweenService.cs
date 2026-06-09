@@ -16,7 +16,18 @@ namespace HelloDev.Tweening
         /// <summary>
         /// Gets the current tween provider. Returns a NullTweenProvider if none is set.
         /// </summary>
-        public static ITweenProvider Provider => _provider ?? NullTweenProvider.Instance;
+        public static ITweenProvider Provider
+        {
+            get
+            {
+                if (_provider == null)
+                {
+                    Logger.LogError("Tween", "No tween provider configured! Returning NullTweenProvider.");
+                    return new NullTweenProvider();
+                }
+                return _provider;
+            }
+        }
 
         /// <summary>
         /// Returns true if a tween provider has been configured.
