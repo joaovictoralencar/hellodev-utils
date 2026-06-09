@@ -23,7 +23,7 @@ namespace HelloDev.Tweening
                 if (_provider == null)
                 {
                     Logger.LogError("Tween", "No tween provider configured! Returning NullTweenProvider.");
-                    return new NullTweenProvider();
+                    return new NullTweenProvider.Instance;
                 }
                 return _provider;
             }
