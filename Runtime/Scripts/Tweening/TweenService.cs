@@ -64,11 +64,11 @@ namespace HelloDev.Tweening
 
         private NullTweenProvider() { }
 
-        public ITweenHandle Scale(Transform target, Vector3 endValue, float duration) => NullTweenHandle.Instance;
-        public ITweenHandle Scale(Transform target, float endValue, float duration) => NullTweenHandle.Instance;
-        public ITweenHandle Fade(Graphic target, float endValue, float duration) => NullTweenHandle.Instance;
-        public ITweenHandle Fade(CanvasGroup target, float endValue, float duration) => NullTweenHandle.Instance;
-        public ITweenHandle FillAmount(Image target, float endValue, float duration) => NullTweenHandle.Instance;
+        public ITweenHandle Scale(Transform target, Vector3 endValue, float duration, float delay = 0) => NullTweenHandle.Instance;
+        public ITweenHandle Scale(Transform target, float endValue, float duration, float delay = 0) => NullTweenHandle.Instance;
+        public ITweenHandle Fade(Graphic target, float endValue, float duration, float delay = 0) => NullTweenHandle.Instance;
+        public ITweenHandle Fade(CanvasGroup target, float endValue, float duration, float delay = 0) => NullTweenHandle.Instance;
+        public ITweenHandle FillAmount(Image target, float endValue, float duration, float delay = 0) => NullTweenHandle.Instance;
         public void Kill(Transform target) { }
         public void Kill(Component target) { }
         public void KillAll() { }
