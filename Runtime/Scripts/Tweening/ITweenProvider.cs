@@ -14,12 +14,12 @@ namespace HelloDev.Tweening
         /// <summary>
         /// Tweens the transform's local scale to the target value.
         /// </summary>
-        ITweenHandle Scale(Transform target, Vector3 endValue, float duration);
+        ITweenHandle Scale(Transform target, Vector3 endValue, float duration, float delay = 0);
 
         /// <summary>
         /// Tweens the transform's local scale uniformly to the target value.
         /// </summary>
-        ITweenHandle Scale(Transform target, float endValue, float duration);
+        ITweenHandle Scale(Transform target, float endValue, float duration, float delay = 0);
 
         #endregion
 
@@ -28,17 +28,17 @@ namespace HelloDev.Tweening
         /// <summary>
         /// Tweens a Graphic's (Image, Text, etc.) alpha to the target value.
         /// </summary>
-        ITweenHandle Fade(Graphic target, float endValue, float duration);
+        ITweenHandle Fade(Graphic target, float endValue, float duration, float delay = 0);
 
         /// <summary>
         /// Tweens a CanvasGroup's alpha to the target value.
         /// </summary>
-        ITweenHandle Fade(CanvasGroup target, float endValue, float duration);
+        ITweenHandle Fade(CanvasGroup target, float endValue, float duration, float delay = 0);
 
         /// <summary>
         /// Tweens an Image's fillAmount to the target value.
         /// </summary>
-        ITweenHandle FillAmount(Image target, float endValue, float duration);
+        ITweenHandle FillAmount(Image target, float endValue, float duration, float delay = 0);
 
         #endregion
 
