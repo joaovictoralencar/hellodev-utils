@@ -58,7 +58,7 @@ namespace HelloDev.Tweening
     /// <summary>
     /// A no-op tween provider that does nothing. Used as fallback when no provider is configured.
     /// </summary>
-    internal class NullTweenProvider : ITweenProvider
+    public class NullTweenProvider : ITweenProvider
     {
         public static readonly NullTweenProvider Instance = new();
 
