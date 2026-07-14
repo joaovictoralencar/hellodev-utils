@@ -6,7 +6,7 @@
   "license": "MIT",
   "description": "Foundation utilities for HelloDev packages. Includes RuntimeScriptableObject base class, GameContext service container, IBootstrapInitializable interface, and extension methods for safe event handling.",
   "name": "com.hellodev.utils",
-  "unityRelease": "0f1",
+  "unityRelease": "3f1",
   "keywords": [
     "utilities",
     "scriptableobject",
@@ -18,9 +18,15 @@
   "displayName": "HelloDev Utils",
   "type": "library",
   "author": {
-    "email": "hello.dev.tecnologia@gmail.com",
-    "name": "Hello Dev"
+    "name": "HelloDev",
+    "email": "hello@hellodev.com",
+    "url": ""
   },
-  "unity": "6000.3",
-  "version": "1.0.7"
+  "unity": "6000.0",
+  "unityRelease": "0f1",
+  "version": "1.1.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/joaovictoralencar/hellodev-utils.git"
+  }
 }
