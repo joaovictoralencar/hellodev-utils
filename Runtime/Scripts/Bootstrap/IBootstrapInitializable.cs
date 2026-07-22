@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Cysharp.Threading.Tasks;
 
 namespace HelloDev.Utils
 {
@@ -88,7 +89,7 @@ namespace HelloDev.Utils
         /// Check <see cref="IsInitialized"/> and return early if already initialized.
         /// </remarks>
         /// <returns>A task that completes when initialization is done.</returns>
-        Task InitializeAsync();
+        UniTask InitializeAsync();
 
         /// <summary>
         /// Called by bootstrap during shutdown for cleanup.
