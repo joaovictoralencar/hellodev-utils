@@ -1,0 +1,17 @@
+{
+    "name": "HelloDev.Utils.Locator",
+    "rootNamespace": "HelloDev.Utils.Locator",
+    "references": [
+        "GUID:07668497c187c9c46a487d106686cddb",
+        "GUID:f51ebe6a0ceec4240a699833d6309b23"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

@@ -4,7 +4,7 @@
     "type": "git"
   },
   "name": "com.hellodev.utils",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Foundation utilities for HelloDev packages. Includes RuntimeScriptableObject base class, GameContext service container, IBootstrapInitializable interface, and extension methods for safe event handling.",
   "keywords": [
     "utilities",
